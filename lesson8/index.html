@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+<!--
+3. Создать функцию, которой передаем проишествие и она возвращает функцию. Это все помещаем в переменную, а которую потом передаем аргумент улицы и функция возвращает "В городе *проишествие* на улице *улица*. Сообщений на тему *проишествие*: *число*". Вот пример.
+
+var avariya = warningMaker('авария');
+avariya('Успенская'); // "В городе авария на улице Успенская. Сообщений на тему авария: 1".
+avariya('Ришельевская');  // "В городе авария на улице Ришельевская. Сообщений на тему авария: 2".
+
+var remont = warningMaker('ремонт дороги');
+remont('Преображенская');  // "В городе ремонт дороги на улице Преображенская  Сообщений на тему ремонт дороги: 1".
+-->
+
+
+
+
+
+
+
+
+<!--
+4. Задание на работу с объектами.
+Пишем функцию, которая на вход принимает массив. Допустим, вот такой:
+var cows = [
+  {name: "Legolas", type: "calf", hadCalf: null},
+  {name: "Gimli", type: "bull", hadCalf: null},
+  {name: "Arwen", type: "cow", hadCalf: null},
+  {name: "Galadriel", type: "cow", hadCalf: null},
+  {name: "Eowyn", type: "cow", hadCalf: "Legolas"}
+];
+и возвращает объект, но в таком виде:
+{
+    calf: [
+        {name: "Legolas", hadCalf: null}
+    ],
+    bull: [
+        {name: "Gimli", hadCalf: null}
+    ],
+    cow: [
+        {name: "Arwen", hadCalf: null},
+        {name: "Galadriel", hadCalf: null},
+        {name: "Eowyn", hadCalf: "Legolas"}
+    ]
+}
+
+те строит объект по типу животного
+-->
+
+
+
+<script>
+
+/*------------------------------------------------------------------------------*/
+
+
+console.log('First task')
+
+var eventWriter = (function() {
+	var cnt = 1;
+	var cnt1 = 1;
+	var cnt2 = 1;
+	var street = '';
+	var event  = '';
+	return function(arg1, arg2) {
+		switch(arg1) {
+		case 'авария':
+			cnt = cnt1++;
+			break;
+		case 'потоп':
+			cnt = cnt2++
+			break;
+		}
+		street = arg2;
+		event  = arg1;
+		return 'В городе '+event+' ('+cnt+')'+' на улице '+street+'.';
+	}
+})();
+
+console.log(eventWriter('авария', 'Пушкинская'));
+console.log(eventWriter('потоп', 'Сегедская'));
+console.log(eventWriter('потоп', 'Пушкинская'));
+console.log(eventWriter('потоп', 'Пушкинская'));
+console.log(eventWriter('авария', 'Пушкинская'));
+/*------------------------------------------------------------------------------*/
+
+
+console.log('Second task')
+
+var cows = [
+  {name: "Legolas", type: "calf", hadCalf: null},
+  {name: "Gimli", type: "bull", hadCalf: null},
+  {name: "Arwen", type: "cow", hadCalf: null},
+  {name: "Galadriel", type: "cow", hadCalf: null},
+  {name: "Eowyn", type: "cow", hadCalf: "Legolas"}
+];
+
+
+function returnObj(myArr) {
+	var myObj = {};
+	for (var i = 0; i < myArr.length; i++) {
+		var animal = {
+			name    : myArr[i].name,
+			hadCalf : myArr[i].hadCalf,
+		}
+		var myArrObj = [];
+		myArrObj.push(animal);
+		if (myObj[myArr[i].type] != undefined) {
+			myObj[myArr[i].type].push(animal)
+		} else {
+			myObj[myArr[i].type] = myArrObj;
+		}
+	}
+	return myObj;
+}
+
+console.log(returnObj(cows))
+
+
+
+
+
+
+
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,186 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hillel 4</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/foundation/6.2.3/foundation.min.css">
+  </head>
+  <body>
+<br><br><br>
+<div class="row">
+<div class="medium-12 columns">
+  <p><input type="checkbox" name="langAutoDetect" checked="checked"> Автоопределение</p>
+</div>
+  <div class="medium-6 columns">
+    <form action="">
+      <select name="langFrom" disabled=""></select>
+      <div><textarea name="langFromText"cols="30" rows="10">Привет</textarea></div>
+      <p><span id="countLetters">0</span> / 10000</p>
+      <!--p><a href="#" class="button">Перевести</a></p-->
+    </form>
+  </div>
+  <div class="medium-6 columns">
+    <form action="">
+      <select name="langTo"></select>
+      <div><textarea disabled="" name="langToText" cols="30" rows="10"></textarea></div>
+    </form>
+    <p>Задержка между переводами 1 сек</p>
+  </div>
+</div>
+<div class="row">
+<div class="medium-6 columns centered">
+  <p>Переведено сервисом «Яндекс.Переводчик»</p>
+</div>
+</div>
+
+ 
+
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+
+<script>
+var key = 'trnsl.1.1.20161021T093905Z.f5d154a8be033577.f4917552f0898a52ee1d8316dc79d7110dd4336a';
+var textarea = $('[name = langFromText]').val();
+var lantFromDefault = $('[name = langFrom]').val();
+var lantToDefault = $('[name = langTo]').val();
+var urlAPI = 'https://translate.yandex.net/api/v1.5/tr.json/';
+var typingTimer; 
+var typingInterval = 1000;
+
+
+
+
+
+
+
+/*-------------------------------------------------------------------*/
+function ajaxGetLangs() {
+  urlAPIGet = urlAPI+'getLangs';
+  var postedGet = {
+    key : key,
+    ui : 'en',
+  };
+  $.ajax({
+        type: 'GET',
+        url: urlAPIGet,
+        data: postedGet,
+        success: function(response) {
+          getLang(response);
+        }
+  });
+}
+ function getLang(response) {
+  var languages = '';
+  for (var key in response.langs) {
+    languages = languages+'<option value="'+key+'">'+response.langs[key]+'</option>';
+    //console.log(response.langs[key]);
+  }
+  $('[name = langFrom], [name = langTo]').append(languages)
+  //console.log(response);
+ }
+/*-------------------------------------------------------------------*/
+function ajaxDetectLang () {
+  urlAPIDetect = urlAPI+'detect';
+  var postedDetect = {
+      key : key,
+      text: textarea,
+      //hint: '',
+      //callback: parseLang
+  };
+  $.ajax({
+        type: 'GET',
+        url: urlAPIDetect,
+        data: postedDetect,
+        success: function(response) {
+          detectLang(response);
+        }
+  });
+}
+
+ function detectLang(response) {
+  lantFromDefault = response.lang;
+  console.log(lantFromDefault+' detectLang');
+ }
+
+/*-------------------------------------------------------------------*/
+function ajaxTranslate () {
+  console.log(lantFromDefault+'-'+lantToDefault)
+  urlAPITranslate = urlAPI+'translate';
+  var postedTranslate = {
+      key    : key,
+      text   : textarea,
+      lang   : lantFromDefault+'-'+lantToDefault,
+      format : 'plain',
+      options: 1,
+      //callback: parseLang
+  };
+  $.ajax({
+        type: 'GET',
+        url: urlAPITranslate,
+        data: postedTranslate,
+        success: function(response) {
+          ajaxTranslateCallback(response);
+        }
+  });
+}
+
+function ajaxTranslateCallback(response) {
+  $('[name = langToText]').text(response.text);
+   console.log(response.text);
+}
+
+
+
+
+/*-------------------------------------------------------------------*/
+
+$(document).ready(function() {
+
+
+ajaxGetLangs();
+
+ $('[name = langFrom], [name = langTo]').on('change', function(event) {
+   event.preventDefault();
+  if ($('[name = langAutoDetect]').is(':checked')) {
+      ajaxDetectLang();
+    } else {
+      lantFromDefault = $('[name = langFrom]').val();
+    }
+    console.log(lantFromDefault+' onchange');
+    lantToDefault = $('[name = langTo]').val();
+    setTimeout(ajaxTranslate, 1000)
+ });
+
+$('[name = langAutoDetect]').on('click', function(event) {
+    if ($('[name = langAutoDetect]').is(':checked')) {
+      $('[name = langFrom]').attr('disabled' , 'disabled');
+    } else {
+      $('[name = langFrom]').removeAttr('disabled');
+    }
+});
+
+
+$('[name = langFromText]').on('keyup', function(event) {
+  
+  if ($(this).val().length >= 9999) {
+    alert('Лимит достигнут');
+  } else {
+    textarea = $('[name = langFromText]').val();
+    $('#countLetters').text($(this).val().length);
+    if ($('[name = langAutoDetect]').is(':checked')) {
+      ajaxDetectLang();
+    } else {
+      lantFromDefault = $('[name = langFrom]').val();
+    }
+    lantToDefault = $('[name = langTo]').val();
+    clearTimeout(typingTimer);
+    typingTimer = setTimeout(ajaxTranslate, typingInterval);
+  }
+
+});
+
+});
+</script>
+</body>
+</html>

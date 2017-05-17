@@ -1,0 +1,108 @@
+<!doctype html>
+<html class="no-js" lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Hillel 19</title>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/foundation/6.2.3/foundation.min.css">
+	</head>
+	<body>
+
+<div class="row">
+	<div class="medium-6 medium-centered large-4 large-centered columns">
+
+		<form>
+			<div class="row column log-in-form">
+				<br><br>
+				<label>Email
+					<input type="text" data-close="" placeholder="somebody@example.com">
+				</label>
+				<label>One more field
+					<input value="Test" type="text" data-close="" placeholder="somebody@example.com">
+				</label>
+				<label>One more field
+				<textarea data-close="" name="" id="" cols="10" rows="2"></textarea>
+				</label>
+			</div>
+		</form>
+
+	</div>
+</div>
+	<style>
+		label.vsClose {
+			position: relative;
+		}
+		label.vsClose input,
+		label.vsClose textarea {
+			padding-right: 45px;
+		}
+		label .clearFiled {
+			position: absolute;
+			display: block;
+			z-index: 2;
+			top: 25px;
+			right: 0;
+			width: 38px;
+			height: 39px;
+			padding: 10px;
+			text-align: center;
+			background: #ccc;
+		}
+	</style>
+
+<script>
+let ClearForm = () => {}
+	ClearForm.init = () => {
+		neededFields = document.querySelectorAll('[data-close]');
+
+		let createCloseElem = () => {
+			let elemClose = document.createElement('a');
+					elemClose.innerHTML = 'X';
+					elemClose.classList.add("clearFiled");
+					elemClose.setAttribute("href", "#");
+					return elemClose;
+		}
+
+		let removeCloseElem = (el) => {
+			if (event.target.classList.value == 'clearFiled') {
+				el.lastElementChild.remove();
+				el.querySelector('input, textarea').value = '';
+				el.querySelector('input, textarea').focus();
+			}
+		 }
+
+		for (let i = 0; i < neededFields.length; i++) {
+			neededFields[i].parentElement.classList.add("vsClose");
+			if (neededFields[i].value != "") {
+				neededFields[i].parentElement.appendChild(createCloseElem());
+				neededFields[i].parentElement.onclick = function(event) {
+							removeCloseElem(this);
+				}
+			}
+			// typing
+			neededFields[i].onkeyup = function(e) {
+				if (this.parentElement.lastElementChild.nodeName != 'A') {
+					this.parentElement.appendChild(createCloseElem());
+					this.parentElement.onclick = function(event) {
+						 removeCloseElem(this);
+					}
+				}
+				//fix
+				if (this.value == '' && this.parentElement.lastElementChild.nodeName == 'A') {
+					this.parentElement.lastElementChild.remove();
+				}
+			}  
+		} //for
+	}
+
+
+
+
+
+window.onload = function() {
+	ClearForm.init();
+};
+</script>
+	</body>
+</html>

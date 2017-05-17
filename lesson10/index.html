@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+
+
+var Hamburger = {
+       price: 0,
+       calories: 0,
+       SIZE_SMALL: function() {
+              this.price += 50;
+              this.calories += 20;
+       },
+       SIZE_BIG: function() {
+              this.price += 100;
+              this.calories += 40;
+       },
+       STUFFING_CHEESE: function() {
+              this.price += 10;
+              this.calories += 20;
+       },
+       TOPPING_MAYO: function() {
+              this.price += 500;
+              this.calories += 20;
+       },
+       RESET: function() {
+              this.price = 0;
+       },
+       constructor: function() {
+             this.price = Hamburger.price; 
+             this.calories = Hamburger.calories; 
+             return this;
+       }
+}
+
+var hamburger = Object.create(Hamburger);
+hamburger.constructor(Hamburger.SIZE_SMALL(), Hamburger.STUFFING_CHEESE());
+
+
+hamburger.TOPPING_MAYO();
+console.log(hamburger.price);
+console.log(hamburger.calories);
+console.log(hamburger);
+
+//hamburger.RESET();
+
+hamburger.TOPPING_MAYO();
+console.log(hamburger.price);
+console.log(hamburger.calories);
+console.log(hamburger);
+
+
+
+/*
+
+Я наверное чето не догнал ... как смог сделал ...
+
+*/
+// var Hamburger = { 
+// 	            price: 0
+//               , calories: 0
+//               , SIZE_SMALL() {
+//               	this.price += 50;
+//               	this.calories += 20;
+//               }
+//               , SIZE_BIG() {
+//               	this.price += 100;
+//               	this.calories += 40;
+//               }
+//               , STUFFING_CHEESE() {
+//               	this.price += 10;
+//               	this.calories += 20;
+//               }
+//               , STUFFING_SALAT() {
+//               	this.price += 20;
+//               	this.calories += 5;
+//               }
+//               , STUFFING_POTATO() {
+//               	this.price += 15;
+//               	this.calories += 10;
+//               }
+//               , TOPPING_MAYO() {
+//               	this.price += 15;
+//               	this.calories += 10;
+//               }
+//               , TOPPING_TRIMMINGS() {
+//               	this.price += 5;
+//               }
+//               , RESET() {
+//               	this.price = 0;
+//               	this.calories = 0;
+//               }
+//             }
+
+// function newHamburger() {
+// 	this.price = Hamburger.price;
+// 	this.calories = Hamburger.calories;
+// }
+
+
+// var hamburger = new newHamburger(Hamburger.RESET(), Hamburger.SIZE_SMALL(), Hamburger.STUFFING_CHEESE());
+// console.log('цена первого '+hamburger.price)
+// console.log('калории первого '+hamburger.calories)
+
+// var hamburger2 = new newHamburger(Hamburger.RESET(), Hamburger.SIZE_BIG(), Hamburger.STUFFING_POTATO());
+// console.log('цена 2 '+hamburger2.price)
+// console.log('калории 2 '+hamburger2.calories)
+</script>
+</body>
+</html>

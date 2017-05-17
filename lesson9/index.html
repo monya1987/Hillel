@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+<!--
+Вот массив для примера: 
+var cows = [
+  {name: "Legolas", type: "calf", hadCalf: null},
+  {name: "Gimli", type: "bull", hadCalf: null},
+  {name: "Arwen", type: "cow", hadCalf: null},
+  {name: "Galadriel", type: "cow", hadCalf: null},
+  {name: "Eowyn", type: "cow", hadCalf: "Legolas"}
+];
+
+1. Построить функцию с именем noCalves, которая будет добавлена к прототипу объекта. Если тип объекта является "cow", а также не было телят, функция должна возвращать true, в противном случае — false.
+
+cows[1].noCalves() => false
+cows[2].noCalves() => true
+
+2. Построить функцию под названием countCows, которая будет добавлена в прототип массива. CountCows должна возвращать количество коров, у которых нет телят. 
+сows.countCows() => 2
+
+
+
+"Legolas", "calf", false
+"Eowyn", "cow", "Legolas"
+
+4. Заменить объект cows на функцию-конструктор. И создать 2 таких же животных.
+-->
+
+
+
+<script>
+
+var cows = [
+  {name: "Legolas", type: "calf", hadCalf: null},
+  {name: "Gimli", type: "bull", hadCalf: null},
+  {name: "Arwen", type: "cow", hadCalf: null},
+  {name: "Galadriel", type: "cow", hadCalf: null},
+  {name: "Eowyn", type: "cow", hadCalf: "Legolas"}
+];
+//console.log('1 task')
+/*------------------------------------------------------------------------------*/
+// Object.prototype.noCalves = function() {
+// 			if (this['type'] == 'cow' && this['hadCalf'] == null) {
+// 				return true;
+// 			} else {
+// 				return false;
+// 			}
+// };
+// console.log(cows[2].noCalves());
+// console.log(cows[3].noCalves());
+// console.log(cows[4].noCalves());
+
+
+//console.log('2 task')
+/*------------------------------------------------------------------------------*/
+
+// Array.prototype.countCows = function(text) {
+// 			var cnt = 0;
+// 			for (var variable in this) {
+// 				if (this[variable]['type'] == text && this[variable]['hadCalf'] == null) {
+// 					cnt++;
+// 				}
+// 			}
+// 			if (cnt > 0) {
+// 				return cnt;
+// 			} else {
+// 				return false;
+// 			}
+// };
+// console.log(cows.countCows('cow'));
+
+
+
+/*------------------------------------------------------------------------------*/
+/*3. Создать 2 объекта с данными о животном, используя в качестве прототипа объект: 
+var cows = {
+  name: undefined,
+  type: undefined,
+  hadCalf: undefined
+};*/
+// var cows = {
+//   name: undefined,
+//   type: undefined,
+//   hadCalf: undefined
+// };
+
+// var newCow = Object.create(cows);
+// newCow.name = 'Burenka';
+// newCow.type = 'Molokoobraznaya';
+// newCow.hadCalf = false;
+
+// var newCow2 = Object.create(cows);
+// newCow2.name = 'bloodseeker';
+// newCow2.type = 'bloody';
+// newCow2.hadCalf = true;
+
+// console.log(newCow)
+// console.log(newCow2)
+
+
+
+//console.log('4 task')
+/*------------------------------------------------------------------------------*/
+/*"Legolas", "calf", false
+"Eowyn", "cow", "Legolas"
+4. Заменить объект cows на функцию-конструктор. И создать 2 таких же животных.*/
+
+
+// function animal(name, type, hadCalf) {
+// 	this.name = name;
+// 	this.type = type;
+// 	this.hadCalf = hadCalf;
+// }
+
+// var animal1 = new animal('ggggggggg', 'cow', false);
+// var animal2 = new animal('rwerwrqewr', 'cow', false);
+
+// console.log(animal1)
+// console.log(animal2)
+</script>
+</body>
+</html>

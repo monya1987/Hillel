@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+<script>
+/*
+Создаем объект cow, у которого есть метод message, который принимает аргументом text и возвращает его.
+
+Создаем 2 блока try catch:
+
+1. вызываем несуществующий метод cow.moo() и пытаемся отловить эту ошибку. Вспоминаем как проверить тип ошибки и показываем сообщение "такого метода нет"
+
+2. вызываем метод message с текстом 'ololo' — cow.message('ololo')
+
+Мы хотим проверить, что этот метод не вернет "ololo", если вернул — надо чтобы была ошибка и отработал catch. Но просто ошибки не будет, надо что-то сделать... 
+*/
+var Cow = {
+    moo: function(msg) {
+        return msg;
+    }
+}
+/*---------1-------------*/
+ try {
+    cow.msg();
+  } catch(error) {
+    if (error.name == 'ReferenceError') {
+      console.log('переменной или метода не существует')
+    } else {
+      console.log('error')
+    }
+  }
+</script>
+</body>
+</html>
