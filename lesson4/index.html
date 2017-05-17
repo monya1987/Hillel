@@ -1,0 +1,155 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hillel 4</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/foundation/6.2.3/foundation.min.css">
+  </head>
+  <body>
+
+<div class="row">
+  <div class="medium-6 medium-centered large-4 large-centered columns">
+
+    <form>
+      <div class="row column log-in-form">
+        <br><br>
+        <label>Email
+          <input type="text" data-close="" placeholder="somebody@example.com">
+        </label>
+        <label>One more field
+          <input value="Test" type="text" data-close="" placeholder="somebody@example.com">
+        </label>
+        <label>One more field
+        <textarea data-close="" name="" id="" cols="10" rows="2"></textarea>
+        </label>
+        <label>Select country
+          <select name="" id="country">
+            <option selected value="0">Select country</option>
+            <option value="usa">USA</option>
+            <option value="rus">Russia</option>
+            <option value="ukr">Ukraine</option>
+          </select>
+        </label>
+        <p><a type="submit" class="button expanded">Log In</a></p>
+      </div>
+    </form>
+
+  </div>
+</div>
+  <style>
+    label.vsClose {
+      position: relative;
+    }
+    label.vsClose input,
+    label.vsClose textarea {
+      padding-right: 45px;
+    }
+    label .clearFiled {
+      position: absolute;
+      display: block;
+      z-index: 2;
+      top: 25px;
+      right: 0;
+      width: 38px;
+      height: 39px;
+      padding: 10px;
+      text-align: center;
+      background: #ccc;
+    }
+  </style>
+
+  <script   src="http://code.jquery.com/jquery-3.1.1.slim.min.js"   integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc="   crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/foundation/6.2.3/foundation.min.js"></script>
+  <script>
+$(document).ready(function() {
+    var neededFields = $("[data-close]");
+    var neededFieldsLabel = neededFields.parent('label').addClass('vsClose');
+    for (var i = 0; i < neededFields.length; i++) {
+      if ($(neededFields[i]).val() != "") {
+        console.log('if');
+        $(neededFieldsLabel[i]).append('<a class="clearFiled" href="#">X</a>');
+        $(neededFieldsLabel).on('click', '.clearFiled', function (e) {
+          e.preventDefault();
+          var input = $(this).parent('label').find('input, textarea');
+          input.val("").focus();
+          $(this).remove();
+        });
+      } 
+    }
+    // typing
+    neededFields.keyup(function() {
+      var inp = $(this).parent('label').find('input, textarea');
+      console.log(inp.val());
+      if ($(this).parent('label').has(".clearFiled").length < 1) {
+         $(this).parent('label').append('<a class="clearFiled" href="#">X</a>');
+         console.log('if')
+      } 
+      //fix
+      if (inp.val() == "") {
+        $(this).parent('label').find('.clearFiled').remove();
+      }
+    });
+
+
+///////////////////////// Select
+
+  var obj = {
+    "usa": {
+          1: "Boston",
+          2: "Carmel"
+        },
+    "ukr": {
+          1: "Киев",
+          2: "Одесса"
+        },
+    "rus": {
+          1: "Москва",
+          2: "Питер"
+        }
+  }
+
+  var select = $('#country');
+  select.on('change', function(event) {
+    event.preventDefault();
+    var createdSel = $(document.createElement('select'));
+    createdSel.attr({
+      id: "city",
+      name: "city"
+    });
+    console.log(createdSel)
+    var whatSelected = $(this).val();
+    for (var code in obj[whatSelected]) {
+      var value = obj[whatSelected][code];
+      var options = $(document.createElement('option'));
+      options.text(value);
+      createdSel.append(options);
+      //console.log(options)
+    }
+    if (select.val() != 0) {
+      console.log(' > 0')
+      $('#city').remove()
+      select.parent('label').append(createdSel);
+    } else {
+      $('#city').remove()
+    }
+  });
+  
+    
+});
+  </script>
+  </body>
+</html>
+
+
+
+<!--
+Надо придумать и сверстать форму.
+
+Ключевые моменты, которые надо реализовать самостоятельно на jquery:
+
+1. добавить в input и textarea крестик, при клике на который будет очищаться текущее поле (сразу проверьте и подумайте как сделать так, чтобы текст внутри поля не налез на крестик)
+
+2. добавить select со списком стран (можно ограничиться 2-3 странами), и, при выборе страны, должен появиться еще один select с выбором города (понятно, что города привязаны к своим странам)
+-->
