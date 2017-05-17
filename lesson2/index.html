@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Lesson2</title>
+</head>
+<body>
+
+
+<script type="text/javascript">
+	// var arr = [1, 22 ,3, [44, 33, [9,9]], 6];
+	// ну нах это рекурсивно сделать моЦк сломается ...
+
+
+
+
+
+	var arr = [1, 22 ,3, [44, 33], 6];
+
+	function generateList(insertedArr) {
+	var body = document.body;
+	var ul = document.createElement('ul');
+	var ul2 = document.createElement('ul');
+	for (var i = 0; i < arr.length; i++) {
+			console.log('for1');
+			var li = document.createElement('li');
+			
+			if (Array.isArray(arr[i])) {
+				
+				console.log('enter point');
+				
+				for (var cnt = 0; cnt < arr[i].length; cnt++) {
+					var li2 = document.createElement('li');
+					li2.innerHTML = arr[i][cnt];
+					ul2.appendChild(li2)
+				}
+				li.appendChild(ul2)
+				ul.appendChild(li);
+			} else {
+					li.innerHTML = arr[i];
+					ul.appendChild(li);
+			}
+		
+	}
+	body.appendChild(ul);
+	}
+	generateList(arr);
+</script>
+</body>
+</html>
